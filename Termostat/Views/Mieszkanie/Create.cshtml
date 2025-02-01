@@ -1,0 +1,21 @@
+﻿@model Mieszkanie
+
+<h2>Dodaj nowe mieszkanie</h2>
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="LiczbaPokoi"></label>
+        <input asp-for="LiczbaPokoi" class="form-control" />
+        <span asp-validation-for="LiczbaPokoi" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LiczbaOkien"></label>
+        <input asp-for="LiczbaOkien" class="form-control" />
+        <span asp-validation-for="LiczbaOkien" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BazowaTemperatura"></label>
+        <input asp-for="BazowaTemperatura" class="form-control" />
+        <span asp-validation-for="BazowaTemperatura" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Zapisz</button>
+</form>

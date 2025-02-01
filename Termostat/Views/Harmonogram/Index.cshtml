@@ -1,0 +1,70 @@
+﻿@model IEnumerable<HarmonogramViewModel>
+
+<h2>Harmonogramy</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info mt-3">
+        Nie masz jeszcze żadnych harmonogramów. Dodaj nowy, aby zacząć!
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Temperatura</th>
+                <th>Status</th>
+                <th>Koszt dzienny</th>
+                <th>Koszt tygodniowy</th>
+                <th>Koszt miesięczny</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Harmonogram.Nazwa</td>
+                    <td>@item.Harmonogram.Start:00</td>
+                    <td>@item.Harmonogram.End:00</td>
+                    <td>@item.Harmonogram.DocelowaTemperatura °C</td>
+                    <td>
+                        @if (item.Harmonogram.IsActive)
+                        {
+                            <span class="badge bg-success">Aktywny</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Nieaktywny</span>
+                        }
+                    </td>
+                    <td>@item.CenaDzienna.ToString("C")</td>
+                    <td>@item.CenaTygodniowa.ToString("C")</td>
+                    <td>@item.CenaMiesieczna.ToString("C")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Harmonogram.Id" class="btn btn-sm btn-warning">Edytuj</a>
+                        <form asp-action="Delete" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@item.Harmonogram.Id" />
+                            <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                        </form>
+                        <form asp-action="ToggleActive" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@item.Harmonogram.Id" />
+                            <button type="submit" class="btn btn-sm @(item.Harmonogram.IsActive ? "btn-secondary" : "btn-primary")">
+                                @(item.Harmonogram.IsActive ? "Wyłącz" : "Włącz")
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Create" class="btn btn-primary">Dodaj nowy harmonogram</a>
+<a asp-action="PodsumowanieKosztow" class="btn btn-primary">Podsumowanie kosztów</a>
+
+

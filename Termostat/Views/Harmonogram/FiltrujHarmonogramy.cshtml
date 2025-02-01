@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Harmonogram>
+
+<h2>Filtruj harmonogramy</h2>
+
+<form method="get" asp-action="FiltrujHarmonogramy">
+    <div class="form-row">
+        
+        <div class="form-group col-md-2">
+            <label for="startOd">Godzina rozpoczęcia (od):</label>
+            <input type="number" name="startOd" class="form-control" min="0" max="23" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="startDo">Godzina rozpoczęcia (do):</label>
+            <input type="number" name="startDo" class="form-control" min="0" max="23" />
+        </div>
+    </div>
+
+    <div class="form-row">
+      
+        <div class="form-group col-md-2">
+            <label for="endOd">Godzina zakończenia (od):</label>
+            <input type="number" name="endOd" class="form-control" min="1" max="24" />
+        </div>
+        <div class="form-group col-md-2">
+            <label for="endDo">Godzina zakończenia (do):</label>
+            <input type="number" name="endDo" class="form-control" min="1" max="24" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="minTemperatura">Minimalna temperatura:</label>
+        <input type="number" name="minTemperatura" class="form-control" min="18" max="35" />
+    </div>
+    <div class="form-group">
+        <label for="maxTemperatura">Maksymalna temperatura:</label>
+        <input type="number" name="maxTemperatura" class="form-control" min="18" max="35" />
+    </div>
+    <div class="form-group">
+        <label for="isActive">Aktywny:</label>
+        <select name="isActive" class="form-control">
+            <option value="">Wszystkie</option>
+            <option value="true">Tak</option>
+            <option value="false">Nie</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filtruj</button>
+</form>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Temperatura</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nazwa</td>
+                <td>@item.Start:00</td>
+                <td>@item.End:00</td>
+                <td>@item.DocelowaTemperatura °C</td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="badge bg-success">Aktywny</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Nieaktywny</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

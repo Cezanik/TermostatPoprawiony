@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Zaproszenie>
+
+
+<h2>Twoje prośby</h2>
+@if (!Model.Any())
+{
+    <div class="alert alert-info mt-3">
+        <i class="bi bi-info-circle"></i>
+        Nie masz żadnych nowych powiadomień.
+    </div>
+}
+else
+{
+@foreach (var zaproszenie in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Prośba od: @zaproszenie.Nadawca.Email</h5>
+            <p class="card-text">
+                Status: @zaproszenie.Status<br>
+                Wysłano: @zaproszenie.DataWyslania.ToString("g")
+            </p>
+            <div class="d-flex gap-2">                
+                <form asp-action="UsunPowiadomienie" method="post">
+                    <input type="hidden" name="id" value="@zaproszenie.Id" />
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-dark">Usuń</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+}

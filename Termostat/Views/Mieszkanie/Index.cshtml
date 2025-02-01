@@ -1,0 +1,43 @@
+﻿@model Mieszkanie
+<h2>Twoje mieszkania</h2>
+@if (Model == null) // Jeśli użytkownik nie ma mieszkania
+{
+    <div class="alert alert-info">
+        <h4>Nie masz jeszcze mieszkania</h4>
+        <a asp-action="Create" class="btn btn-primary">Dodaj mieszkanie</a>
+        <span>lub</span>
+        <a asp-action="WyslijProsbe" class="btn btn-success">Wyślij prośbę o dodanie</a>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@Model.LiczbaPokoi pokoi, @Model.LiczbaOkien okien</h5>
+            <p class="card-text">
+                Temperatura bazowa: <strong>@Model.BazowaTemperatura °C</strong>
+            </p>
+
+            <h6>Współlokatorzy (@Model.Wspolokatorzy.Count/8):</h6>
+            <ul>
+                @foreach (var wspolokator in Model.Wspolokatorzy)
+                {
+                    <li>@wspolokator.User.Email</li>
+                }
+            </ul>
+
+            @if (ViewBag.IsWlasciciel)
+            {
+                @if (Model.Wspolokatorzy.Count < 8)
+                {
+                    <a asp-action="AddWspolokator" asp-route-mieszkanieId="@Model.Id"
+                       class="btn btn-sm btn-info">Dodaj współlokatora</a>
+                }
+                else
+                {
+                    <span class="text-muted">Osiągnięto limit współlokatorów</span>
+                }
+            }
+        </div>
+    </div>
+}
